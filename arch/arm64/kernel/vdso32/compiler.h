@@ -23,8 +23,11 @@
 #ifndef __VDSO_COMPILER_H
 #define __VDSO_COMPILER_H
 
+<<<<<<< HEAD
 #include <generated/autoconf.h>
 #undef CONFIG_64BIT
+=======
+>>>>>>> 42a964c3ca32... FROMLIST: [PATCH 4/6] arm64: compat: Add a 32-bit vDSO
 #include <asm/barrier.h>	/* for isb() & dmb()	*/
 #include <asm/param.h>		/* for HZ		*/
 #include <asm/unistd32.h>

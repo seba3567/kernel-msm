@@ -33,9 +33,13 @@ cc32-ldoption = $(call try-run,\
 # NOSTDINC_FLAGS
 VDSO_CPPFLAGS := -nostdinc -isystem $(shell $(CC_ARM32) -print-file-name=include)
 VDSO_CPPFLAGS += $(LINUXINCLUDE)
+<<<<<<< HEAD
 VDSO_CPPFLAGS += -D__KERNEL__
 VDSO_CPPFLAGS += $(call cc-option,-Qunused-arguments,)
 VDSO_CPPFLAGS += $(ARCH_CPPFLAGS) $(KCPPFLAGS)
+=======
+VDSO_CPPFLAGS += $(KBUILD_CPPFLAGS)
+>>>>>>> 42a964c3ca32... FROMLIST: [PATCH 4/6] arm64: compat: Add a 32-bit vDSO
 
 # Common C and assembly flags
 # From top-level Makefile
@@ -44,6 +48,12 @@ VDSO_CAFLAGS += $(call cc32-option,-fno-PIE)
 ifdef CONFIG_DEBUG_INFO
 VDSO_CAFLAGS += -g
 endif
+<<<<<<< HEAD
+=======
+ifeq ($(shell $(CONFIG_SHELL) $(srctree)/scripts/gcc-goto.sh $(CC_ARM32)), y)
+VDSO_CAFLAGS += -DCC_HAVE_ASM_GOTO
+endif
+>>>>>>> 42a964c3ca32... FROMLIST: [PATCH 4/6] arm64: compat: Add a 32-bit vDSO
 
 # From arm Makefile
 VDSO_CAFLAGS += $(call cc32-option,-fno-dwarf2-cfi-asm)
