@@ -1,11 +1,7 @@
 /*
-<<<<<<< HEAD
  * Additional userspace pages setup for AArch64 and AArch32.
  *  - AArch64: vDSO pages setup, vDSO data page update.
  *  - AArch32: sigreturn and kuser helpers pages setup.
-=======
- * VDSO implementation for AArch64 and vector page setup for AArch32.
->>>>>>> parent of 0b8eb0eafe00... (remove) vdso fow now
  *
  * Copyright (C) 2012 ARM Limited
  *
@@ -59,7 +55,6 @@ struct vdso_data *vdso_data = &vdso_data_store.data;
 /*
  * Create and map the vectors page for AArch32 tasks.
  */
-<<<<<<< HEAD
 static struct page *vectors_page[] __ro_after_init;
 static const struct vm_special_mapping compat_vdso_spec[] = {
 	{
@@ -67,22 +62,22 @@ static const struct vm_special_mapping compat_vdso_spec[] = {
 		.name	= "[sigpage]",
 		.pages	= &vectors_page[0],
 	},
+#ifdef CONFIG_KUSER_HELPERS
 	{
 		.name	= "[kuserhelpers]",
 		.pages	= &vectors_page[1],
 	},
+#endif
 };
 static struct page *vectors_page[ARRAY_SIZE(compat_vdso_spec)] __ro_after_init;
-=======
-static struct page *vectors_page[1] __ro_after_init;
->>>>>>> parent of 0b8eb0eafe00... (remove) vdso fow now
 
 static int __init alloc_vectors_page(void)
 {
+#ifdef CONFIG_KUSER_HELPERS
 	extern char __kuser_helper_start[], __kuser_helper_end[];
-<<<<<<< HEAD
 	size_t kuser_sz = __kuser_helper_end - __kuser_helper_start;
 	unsigned long kuser_vpage;
+#endif
 
 	extern char __aarch32_sigret_code_start[], __aarch32_sigret_code_end[];
 	size_t sigret_sz =
@@ -93,45 +88,26 @@ static int __init alloc_vectors_page(void)
 	if (!sigret_vpage)
 		return -ENOMEM;
 
+#ifdef CONFIG_KUSER_HELPERS
 	kuser_vpage = get_zeroed_page(GFP_ATOMIC);
 	if (!kuser_vpage) {
 		free_page(sigret_vpage);
 		return -ENOMEM;
 	}
+#endif
 
 	/* sigreturn code */
 	memcpy((void *)sigret_vpage, __aarch32_sigret_code_start, sigret_sz);
 	flush_icache_range(sigret_vpage, sigret_vpage + PAGE_SIZE);
 	vectors_page[0] = virt_to_page(sigret_vpage);
 
+#ifdef CONFIG_KUSER_HELPERS
 	/* kuser helpers */
 	memcpy((void *)kuser_vpage + 0x1000 - kuser_sz, __kuser_helper_start,
 		kuser_sz);
 	flush_icache_range(kuser_vpage, kuser_vpage + PAGE_SIZE);
 	vectors_page[1] = virt_to_page(kuser_vpage);
-=======
-	extern char __aarch32_sigret_code_start[], __aarch32_sigret_code_end[];
-
-	int kuser_sz = __kuser_helper_end - __kuser_helper_start;
-	int sigret_sz = __aarch32_sigret_code_end - __aarch32_sigret_code_start;
-	unsigned long vpage;
-
-	vpage = get_zeroed_page(GFP_ATOMIC);
-
-	if (!vpage)
-		return -ENOMEM;
-
-	/* kuser helpers */
-	memcpy((void *)vpage + 0x1000 - kuser_sz, __kuser_helper_start,
-		kuser_sz);
-
-	/* sigreturn code */
-	memcpy((void *)vpage + AARCH32_KERN_SIGRET_CODE_OFFSET,
-               __aarch32_sigret_code_start, sigret_sz);
-
-	flush_icache_range(vpage, vpage + PAGE_SIZE);
-	vectors_page[0] = virt_to_page(vpage);
->>>>>>> parent of 0b8eb0eafe00... (remove) vdso fow now
+#endif
 
 	return 0;
 }
@@ -140,21 +116,11 @@ arch_initcall(alloc_vectors_page);
 int aarch32_setup_vectors_page(struct linux_binprm *bprm, int uses_interp)
 {
 	struct mm_struct *mm = current->mm;
-<<<<<<< HEAD
 	unsigned long addr;
-=======
-	unsigned long addr = AARCH32_VECTORS_BASE;
-	static const struct vm_special_mapping spec = {
-		.name	= "[vectors]",
-		.pages	= vectors_page,
-
-	};
->>>>>>> parent of 0b8eb0eafe00... (remove) vdso fow now
 	void *ret;
 
 	if (down_write_killable(&mm->mmap_sem))
 		return -EINTR;
-<<<<<<< HEAD
 	addr = get_unmapped_area(NULL, 0, PAGE_SIZE, 0, 0);
 	if (IS_ERR_VALUE(addr)) {
 		ret = ERR_PTR(addr);
@@ -170,21 +136,14 @@ int aarch32_setup_vectors_page(struct linux_binprm *bprm, int uses_interp)
 
 	current->mm->context.vdso = (void *)addr;
 
+#ifdef CONFIG_KUSER_HELPERS
 	/* Map the kuser helpers at the ABI-defined high address. */
 	ret = _install_special_mapping(mm, AARCH32_KUSER_HELPERS_BASE,
 				       PAGE_SIZE,
 				       VM_READ|VM_EXEC|VM_MAYREAD|VM_MAYEXEC,
 				       &compat_vdso_spec[1]);
+#endif
 out:
-=======
-	current->mm->context.vdso = (void *)addr;
-
-	/* Map vectors page at the high address. */
-	ret = _install_special_mapping(mm, addr, PAGE_SIZE,
-				       VM_READ|VM_EXEC|VM_MAYREAD|VM_MAYEXEC,
-				       &spec);
-
->>>>>>> parent of 0b8eb0eafe00... (remove) vdso fow now
 	up_write(&mm->mmap_sem);
 
 	return PTR_ERR_OR_ZERO(ret);
@@ -338,7 +297,3 @@ void update_vsyscall_tz(void)
 	vdso_data->tz_minuteswest	= sys_tz.tz_minuteswest;
 	vdso_data->tz_dsttime		= sys_tz.tz_dsttime;
 }
-<<<<<<< HEAD
-
-=======
->>>>>>> parent of 0b8eb0eafe00... (remove) vdso fow now
