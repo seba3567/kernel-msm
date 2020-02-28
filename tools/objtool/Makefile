@@ -35,9 +35,13 @@ INCLUDES := -I$(srctree)/tools/include \
 	    -I$(srctree)/tools/arch/$(HOSTARCH)/include/uapi \
 	    -I$(srctree)/tools/objtool/arch/$(ARCH)/include
 WARNINGS := $(EXTRA_WARNINGS) -Wno-switch-default -Wno-switch-enum -Wno-packed
+<<<<<<< HEAD
 
 CFLAGS   := -Wall -Werror $(WARNINGS) -fomit-frame-pointer -O2 -g $(INCLUDES) $(LIBELF_FLAGS)
 
+=======
+CFLAGS   := -Wall -Werror $(WARNINGS) -fomit-frame-pointer -O2 -g $(INCLUDES) $(LIBELF_FLAGS)
+>>>>>>> 0bf55ab338f3... Merge branch 'kernel.lnx.4.14.r4-rel' of https://github.com/android-li
 LDFLAGS  += $(LIBELF_LIBS) $(LIBSUBCMD)
 
 # Allow old libelf to be used:

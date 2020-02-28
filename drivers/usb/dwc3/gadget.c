@@ -390,10 +390,17 @@ int dwc3_send_gadget_ep_cmd(struct dwc3_ep *dep, unsigned cmd,
 	 * When operating in USB 2.0 speeds (HS/FS), if GUSB2PHYCFG.ENBLSLPM or
 	 * GUSB2PHYCFG.SUSPHY is set, it must be cleared before issuing an
 	 * endpoint command.
+<<<<<<< HEAD
 	 *
 	 * Save and clear both GUSB2PHYCFG.ENBLSLPM and GUSB2PHYCFG.SUSPHY
 	 * settings. Restore them after the command is completed.
 	 *
+=======
+	 *
+	 * Save and clear both GUSB2PHYCFG.ENBLSLPM and GUSB2PHYCFG.SUSPHY
+	 * settings. Restore them after the command is completed.
+	 *
+>>>>>>> 0bf55ab338f3... Merge branch 'kernel.lnx.4.14.r4-rel' of https://github.com/android-li
 	 * DWC_usb3 3.30a and DWC_usb31 1.90a programming guide section 3.2.2
 	 */
 	if (dwc->gadget.speed <= USB_SPEED_HIGH) {

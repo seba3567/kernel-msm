@@ -158,6 +158,10 @@ static inline void set_ssbs_bit(struct pt_regs *regs)
 
 static inline void set_compat_ssbs_bit(struct pt_regs *regs)
 {
+<<<<<<< HEAD
+=======
+	regs->pstate |= COMPAT_PSR_SSBS_BIT;
+>>>>>>> 0bf55ab338f3... Merge branch 'kernel.lnx.4.14.r4-rel' of https://github.com/android-li
 	regs->pstate |= PSR_AA32_SSBS_BIT;
 }
 

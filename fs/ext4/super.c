@@ -4361,6 +4361,11 @@ no_journal:
        } else if (ret)
                goto failed_mount4a;
 
+<<<<<<< HEAD
+=======
+	if (ext4_setup_super(sb, es, sb_rdonly(sb)))
+		sb->s_flags |= MS_RDONLY;
+>>>>>>> 0bf55ab338f3... Merge branch 'kernel.lnx.4.14.r4-rel' of https://github.com/android-li
 
 	ext4_set_resv_clusters(sb);
 

@@ -948,7 +948,11 @@ static void p54u_load_firmware_cb(const struct firmware *firmware,
 		usb_driver_release_interface(&p54u_driver, intf);
 		usb_unlock_device(udev);
 	}
+<<<<<<< HEAD
 	
+=======
+
+>>>>>>> 0bf55ab338f3... Merge branch 'kernel.lnx.4.14.r4-rel' of https://github.com/android-li
 	usb_put_intf(intf);
 }
 
@@ -969,7 +973,11 @@ static int p54u_load_firmware(struct ieee80211_hw *dev,
 
 	dev_info(&priv->udev->dev, "Loading firmware file %s\n",
 	       p54u_fwlist[i].fw);
+<<<<<<< HEAD
 	       
+=======
+
+>>>>>>> 0bf55ab338f3... Merge branch 'kernel.lnx.4.14.r4-rel' of https://github.com/android-li
 	usb_get_intf(intf);
 	err = request_firmware_nowait(THIS_MODULE, 1, p54u_fwlist[i].fw,
 				      device, GFP_KERNEL, priv,
@@ -1051,7 +1059,10 @@ static int p54u_probe(struct usb_interface *intf,
 	err = p54u_load_firmware(dev, intf);
 	if (err)
 		p54_free_common(dev);
+<<<<<<< HEAD
 		
+=======
+>>>>>>> 0bf55ab338f3... Merge branch 'kernel.lnx.4.14.r4-rel' of https://github.com/android-li
 	return err;
 }
 
