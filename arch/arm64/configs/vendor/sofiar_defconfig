@@ -2,6 +2,15 @@
 # Automatically generated file; DO NOT EDIT.
 # Linux/arm64 4.14.117 Kernel Configuration
 #
+
+
+# Support for other sofia and sofiap
+#
+CONFIG_BACKLIGHT_LM3697=y
+CONFIG_SOFIA_DTB=y
+CONFIG_SOFIAP_DTB=y
+
+
 CONFIG_ARM64=y
 CONFIG_64BIT=y
 CONFIG_ARCH_PHYS_ADDR_T_64BIT=y
@@ -4506,8 +4515,6 @@ CONFIG_MSM_RPM_SMD=y
 CONFIG_MMI_DEVICE_DTBS=y
 # CONFIG_DOHA_DTB is not set
 # CONFIG_ROMA_DTB is not set
-# CONFIG_SOFIA_DTB is not set
-# CONFIG_SOFIAP_DTB is not set
 CONFIG_SOFIAR_DTB=y
 # CONFIG_RAV_DTB is not set
 # CONFIG_QCOM_MEM_OFFLINE is not set
