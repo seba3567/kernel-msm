@@ -550,20 +550,6 @@ asmlinkage __visible void __init start_kernel(void)
 	page_alloc_init();
 
 	pr_notice("Kernel command line: %s\n", boot_command_line);
-<<<<<<< HEAD
-=======
-
-	p = strstr(command_line, "androidboot.fpsensor=fpc");
-	if (p) {
-		pr_info("You have fpc scanner\n");
-		fpsensor = 1;//fpc fingerprint
-	} else {
-		pr_info("You have goodix scanner\n");
-		fpsensor = 2;//goodix fingerprint
-	}
-
-	pr_notice("Kernel command line: %s\n", boot_command_line);
->>>>>>> 0bf55ab338f3... Merge branch 'kernel.lnx.4.14.r4-rel' of https://github.com/android-li
 	/* parameters may set static keys */
 	jump_label_init();
 	parse_early_param();
