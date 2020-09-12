@@ -39,6 +39,7 @@
 #include <asm/fpsimd.h>
 #include <asm/ptrace.h>
 #include <asm/signal32.h>
+#include <asm/vdso.h>
 
 /*
  * Do a signal return; undo the signal stack. These are aligned to 128-bit.
@@ -582,6 +583,8 @@ static void setup_return(struct pt_regs *regs, struct k_sigaction *ka,
 	if (ka->sa.sa_flags & SA_RESTORER)
 		sigtramp = ka->sa.sa_restorer;
 	else
+		sigtramp = VDSO_SYMBOL(current->mm->context.vdso, sigtramp);
+
 	regs->regs[30] = (unsigned long)sigtramp;
 }
 

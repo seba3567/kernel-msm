@@ -16,7 +16,7 @@ CFLAGS_setup.o = -DUTS_MACHINE='"$(UTS_MACHINE)"'
 # Object file lists.
 arm64-obj-y		:= debug-monitors.o entry.o irq.o fpsimd.o		\
 			   entry-fpsimd.o process.o ptrace.o setup.o signal.o	\
-			   sys.o stacktrace.o time.o traps.o io.o	\
+			   sys.o stacktrace.o time.o traps.o io.o vdso.o	\
 			   hyp-stub.o psci.o cpu_ops.o insn.o	\
 			   return_address.o cpuinfo.o cpu_errata.o		\
 			   cpufeature.o alternative.o cacheinfo.o		\
