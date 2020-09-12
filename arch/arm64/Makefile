@@ -195,8 +195,8 @@ Image-dtb: vmlinux scripts dtbs
 Image.gz-dtb: vmlinux scripts dtbs Image.gz
 	$(Q)$(MAKE) $(build)=$(boot) $(boot)/$@
 
-PHONY += vdso_install
-vdso_install:
+#PHONY += vdso_install
+#vdso_install:
 	$(Q)$(MAKE) $(build)=arch/arm64/kernel/vdso $@
 
 # We use MRPROPER_FILES and CLEAN_FILES now
@@ -211,10 +211,10 @@ ifeq ($(KBUILD_EXTMOD),)
 # asm-offsets.h is built in prepare0, for which archprepare is a dependency.
 # Therefore we need to generate the header after prepare0 has been made, hence
 # this hack.
-prepare: vdso_prepare
-vdso_prepare: prepare0
+#prepare: vdso_prepare
+#vdso_prepare: prepare0
 	$(Q)$(MAKE) $(build)=arch/arm64/kernel/vdso include/generated/vdso-offsets.h
-endif
+#endif
 
 define archhelp
   echo  '* Image.gz      - Compressed kernel image (arch/$(ARCH)/boot/Image.gz)'
@@ -227,3 +227,4 @@ define archhelp
   echo  '                  (distribution) /sbin/installkernel or'
   echo  '                  install to $$(INSTALL_PATH) and run lilo'
 endef
+endif
